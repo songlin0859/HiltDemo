@@ -2,6 +2,8 @@ package com.sl.hiltdemo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.sl.hiltdemo.data.BindGasEngine
+import com.sl.hiltdemo.data.Engine
 import com.sl.hiltdemo.data.User
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,12 +24,16 @@ class MainActivity : AppCompatActivity() {
     lateinit var okHttpClient: OkHttpClient
     @Inject
     lateinit var okHttpClient1: OkHttpClient
+    @Inject
+    @BindGasEngine
+    lateinit var gasEngine: Engine
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         //textView.text = user.name
-        textView.text = "retrofit === retrofit1 :${retrofit === retrofit1} and okHttpClient === okHttpClient1 : ${okHttpClient === okHttpClient1}"
+        //textView.text = "retrofit === retrofit1 :${retrofit === retrofit1} and okHttpClient === okHttpClient1 : ${okHttpClient === okHttpClient1}"
+        textView.text = gasEngine.toString()
     }
 }
