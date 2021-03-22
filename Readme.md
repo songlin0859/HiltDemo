@@ -74,3 +74,27 @@ View 	        ViewComponent 	@ViewScoped
 带有 @WithFragmentBindings 注释的 View 	ViewWithFragmentComponent 	@ViewScoped
 Service 	ServiceComponent 	@ServiceScoped
 ```
+对应的component用了对应的scope注解
+如果在module中使用了和installIn注解的component相同的scope
+那在该component中就是单例存在 否则 就每次调用module中对应的方法创建实例
+注！ 如果module中的scope和component标记的scope不一致 则会报错 比如：
+```kotlin
+@Module
+@InstallIn(ActivityComponent::class)
+interface EngineModule {
+
+    @BindGasEngine
+    //ActivityComponent中用了@ActivityScoped 这里使用@Singleton会报错
+    //com.sl.hiltdemo.App_HiltComponents.ActivityC scoped with @dagger.hilt.android.scopes.ActivityScoped 
+    //may not reference bindings with different scopes:
+    //@Singleton
+    @ActivityScoped
+    @Binds
+    fun bindGasEngine(gasEngine: GasEngine): Engine
+
+    @BindElectricEngine
+    @Binds
+    fun bindElectricEngine(electricEngine: ElectricEngine): Engine
+
+}
+```
